@@ -1,0 +1,13 @@
+{
+  "name": "aveneg-technologies-mailer",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-03",
+  // mimetext pulls in Node builtins (path, os) via its mime-types dependency;
+  // this flag is required for it to bundle under Workers.
+  "compatibility_flags": ["nodejs_compat"]
+
+  // No send_email binding: the auto-reply goes through message.reply(),
+  // which doesn't need one. That binding is only for env.EMAIL.send(), which
+  // requires the recipient to be a pre-verified destination address — not
+  // usable here since the sender is a new, arbitrary address every time.
+}

@@ -1,0 +1,15 @@
+{
+  "name": "aveneg-technologies-mailer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  },
+  "dependencies": {
+    "mimetext": "^3.0.28"
+  }
+}
