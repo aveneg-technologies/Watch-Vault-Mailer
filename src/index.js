@@ -10,8 +10,11 @@
  *
  * This is the corporate/parent-entity address, not a product waitlist —
  * the acknowledgment reads as general business correspondence and points a
- * sender at the right specific address (commercial licensing, or Watch
- * Vault Archive support) rather than confirming enrollment in anything.
+ * sender at commercial licensing if that's what they need, rather than
+ * confirming enrollment in anything. Deliberately does not mention Watch
+ * Vault Archive's own support address: this is the publisher's inbox, and
+ * routing a product-support inquiry from here would read as the company
+ * fielding its own product's support tickets.
  *
  * This Worker does not read or store the incoming message. It only needs the
  * sender's address, which Cloudflare Email Routing hands it directly as
@@ -31,10 +34,8 @@ const NEVER_REPLY_TO = [/^noreply@/i, /^no-reply@/i, /^mailer-daemon@/i, /^postm
 const ACK_BODY =
   `Thank you for contacting Aveneg Technologies, LLC.\n\n` +
   `This is an automated acknowledgment confirming your message was received. ` +
-  `If your inquiry is about a specific matter, it may reach the right person ` +
-  `faster at one of these instead:\n\n` +
-  `Commercial licensing: legal@avenegtechnologies.com\n` +
-  `Watch Vault Archive support: support@watchvaultarchive.com\n\n` +
+  `If your inquiry is about commercial licensing, it may reach the right ` +
+  `person faster at legal@avenegtechnologies.com.\n\n` +
   `Replies to this address are not monitored.\n\n` +
   `— Aveneg Technologies, LLC\n` +
   `https://avenegtechnologies.com\n\n` +
