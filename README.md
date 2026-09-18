@@ -23,8 +23,14 @@ since the sender is a new address every time.
 
 ```bash
 cd ~/Projects/aveneg-technologies-mailer
+npx wrangler secret put FORWARD_TO   # the mailbox the copy is forwarded to
 npx wrangler deploy
 ```
+
+`FORWARD_TO` is a secret rather than a constant in `src/index.js` because the
+destination is a personal mailbox and this repo is public. The Worker throws
+if it is unset, so set it before the first deploy — otherwise mail to `info@`
+bounces instead of arriving.
 
 You're already logged in via the same Cloudflare account used for the site
 and the other mailer — no separate `wrangler login` needed.
@@ -45,7 +51,8 @@ and Email Routing rules are wired together in the dashboard, next.
 
 1. Send a real email to `info@avenegtechnologies.com` from an address you can
    check (a personal account, not this domain).
-2. Confirm it's forwarded to `bradwaye@gmail.com`, same as before.
+2. Confirm it's forwarded to the mailbox held in the `FORWARD_TO` secret,
+   same as before.
 3. Confirm the sending account *also* receives the auto-reply from
    `noreply@avenegtechnologies.com`.
 

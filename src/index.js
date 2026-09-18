@@ -24,7 +24,9 @@
 import { EmailMessage } from "cloudflare:email";
 import { createMimeMessage } from "mimetext";
 
-const FORWARD_TO = "bradwaye@gmail.com";
+// The forwarding destination is a personal mailbox and this repo is public,
+// so it is not written down here — it comes from a Worker secret:
+//   npx wrangler secret put FORWARD_TO
 
 // Addresses that must never receive an auto-reply, however they got in here.
 // Not exhaustive spam/bounce filtering — just the trivial case of an
@@ -47,8 +49,14 @@ export default {
   async email(message, env, ctx) {
     const from = message.from;
 
+    if (!env.FORWARD_TO) {
+      // A missing secret must not silently swallow mail: fail loudly so
+      // Cloudflare bounces the message rather than accepting and dropping it.
+      throw new Error("FORWARD_TO secret is not set");
+    }
+
     try {
-      await message.forward(FORWARD_TO);
+      await message.forward(env.FORWARD_TO);
     } catch (err) {
       // Forwarding is the important half of this Worker's job — if it fails,
       // let Cloudflare know by rethrowing, since a lost original email is
